@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Movies</string>
+
+    <string name="lbl_title">Title:</string>
+    <string name="placeholder_title">Joker</string>
+
+    <string name="lbl_voting">Average Vote:</string>
+    <string name="placeholder_voting">50%</string>
+
+    <string name="lbl_releaseDate">Release Date:</string>
+    <string name="placeholder_releaseDate">2019–11–01</string>
+
+    <string name="pageNumber">1</string>
+    <string name="image">image</string>
+
+</resources>
