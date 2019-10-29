@@ -27,3 +27,6 @@ Testing
 * Mockito
 * Espresso
 * Idling Resources
+
+TODO:
+--modularization with dagger
