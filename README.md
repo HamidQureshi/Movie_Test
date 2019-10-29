@@ -5,14 +5,16 @@
 * Android
 
 Architectural Pattern
+* Clean Architecture
 * MVVM
 
 Libraries
-* RxJava
+* RxJava2
 * Dagger2
 * LiveData
 * Room
 * CardView
+* Picasso
 * Repository pattern 
 
 
@@ -25,5 +27,3 @@ Testing
 * Mockito
 * Espresso
 * Idling Resources
-
-## Note: This project uses offline first strategy
