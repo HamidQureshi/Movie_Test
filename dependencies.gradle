@@ -1,0 +1,122 @@
+ext {
+
+    compileSdkVersion = 28
+    minSdkVersion = 21
+    targetSdkVersion = 28
+
+    versionName = "1.0"
+    versionCode = 1
+    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+
+    kotlin_version = '1.3.10'
+
+    androidArchVersion = "1.0.0"
+
+    // application dependencies
+    accompatVersion = '1.1.0'
+    materialVersion = '1.1.0-alpha08'
+    recyclerVersion = '1.1.0-beta01'
+    annotationVersion = '1.1.0'
+    multidexVersion = '2.0.1'
+    constraintLayoutVersion = '2.0.0-beta2'
+    archCompomentVersion = '2.0.0'
+    livedataKtx = '2.2.0-alpha02'
+    kotlinVersion = '1.3.10'
+    androidxVersion = '1.0.0'
+    roomVersion = '2.2.0-alpha01'
+    daggerVersion = '2.16'
+    retrofitVersion = '2.3.0'
+    okhttpVersion = '2.5.0'
+    okhttp3Version = '3.11.0'
+    junitVersion = '4.12'
+    mockitoVersion = '2.23.0'
+    mockitoInlineVersion = '2.13.0'
+    mockitoKotlinVersion = '2.0.0-RC1'
+    espressoVersion = '3.1.1'
+    androidxTest = '1.1.0'
+    androidxTestRules = '1.2.0-alpha04'
+    gsonVersion = '2.8.2'
+    rxJavaVersion = '2.1.9'
+    rxAndroidVersion = '2.0.1'
+    coreTestingVersion = '1.1.0'
+    commonsVersion = '2.4'
+    picassoVersion = '2.71828'
+
+    kotlin_version = '1.3.10'
+//    hamcrestVersion = "2.0.0.0"
+
+
+    libsCommon = [
+            kotlin          : ('org.jetbrains.kotlin:kotlin-stdlib-jdk7:' + kotlin_version),
+            kotlinGradlePlugin          : ('org.jetbrains.kotlin:kotlin-gradle-plugin:' + kotlin_version),
+
+            //RX
+            rxJava          : ('io.reactivex.rxjava2:rxjava:' + rxJavaVersion),
+            rxAndroid       : ('io.reactivex.rxjava2:rxandroid:' + rxAndroidVersion),
+
+            //Unit
+            junit           : ('junit:junit:' + junitVersion),
+            mockitoKotlin   : ('com.nhaarman.mockitokotlin2:mockito-kotlin:' + mockitoKotlinVersion),
+
+            //Dagger
+            daggerCompiler   : ('com.google.dagger:dagger-compiler:' + daggerVersion),
+            daggerAndroid   : ('com.google.dagger:dagger-android:' + daggerVersion),
+            daggerAndroidSupport   : ('com.google.dagger:dagger-android-support:' + daggerVersion),
+            daggerAndroidProcessor   : ('com.google.dagger:dagger-android-processor:' + daggerVersion),
+            dagger  : ('com.google.dagger:dagger:' + daggerVersion),
+            daggerKotlinAndroidProcessor  : ('com.google.dagger:dagger-android-processor:' + daggerVersion),
+            daggerKotlinCompiler  : ('com.google.dagger:dagger-compiler:' + daggerVersion),
+
+            //Espresso
+            espressoIdlingResource  : ('androidx.test.espresso:espresso-idling-resource:' + espressoVersion),
+
+//            hamcrest        : ('org.hamcrest:java-hamcrest:' + hamcrestVersion)
+
+            //Room
+            room   : ('android.arch.persistence.room:runtime:' + androidArchVersion),
+            roomRxJava   : ('android.arch.persistence.room:rxjava2:' + androidArchVersion),
+            roomCompiler   : ('android.arch.persistence.room:compiler:' + androidArchVersion),
+            roomTesting : ('androidx.room:room-testing:' + roomVersion),
+
+            //Retrofit
+            retrofit : ('com.squareup.retrofit2:retrofit:' + retrofitVersion),
+            retrofitGsonConverter : ('com.squareup.retrofit2:converter-gson:' + retrofitVersion),
+            retrofitRxJava : ('com.squareup.retrofit2:adapter-rxjava2:' + retrofitVersion),
+            retrofitConverter : ('com.squareup.retrofit2:converter-scalars:' + retrofitVersion),
+
+            //OKHttp
+            okHttp : ('com.squareup.okhttp:okhttp:' + okhttpVersion),
+            okhttpLogging : ('com.squareup.okhttp3:logging-interceptor:' + okhttp3Version),
+
+
+            //Gson
+            gson : ('com.google.code.gson:gson:' + gsonVersion),
+
+    ]
+
+    libsData = [
+    ]
+
+    libsDomain = [
+    ]
+
+    libsPresentation = [
+            appCompat   : ('androidx.appcompat:appcompat:' + accompatVersion),
+            material   : ('com.google.android.material:material:' + materialVersion),
+            cardview   : ('androidx.cardview:cardview:' + androidxVersion),
+            recyclerview   : ('androidx.recyclerview:recyclerview:' + recyclerVersion),
+            constraintLayout   : ('androidx.constraintlayout:constraintlayout:' + constraintLayoutVersion),
+            multidex   : ('androidx.multidex:multidex:' + multidexVersion),
+            annotation   : ('androidx.annotation:annotation:' + annotationVersion),
+
+            lifecycleExtensions   : ('androidx.lifecycle:lifecycle-extensions:' + archCompomentVersion),
+            coreTesting   : ('androidx.arch.core:core-testing:' + archCompomentVersion),
+            lifecycleCompiler   : ('androidx.lifecycle:lifecycle-compiler:' + archCompomentVersion),
+            livedata   : ('androidx.lifecycle:lifecycle-livedata-ktx:' + livedataKtx),
+
+            picasso   : ('com.squareup.picasso:picasso:' + picassoVersion),
+            coreTesting   : ('android.arch.core:core-testing:' + coreTestingVersion),
+
+    ]
+
+}

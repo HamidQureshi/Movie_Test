@@ -1,12 +1,8 @@
 package com.example.hamid.movies.presentation.di.component
 
 import android.app.Application
-import com.example.hamid.movies.data.remote.HttpClientModule
 import com.example.hamid.movies.presentation.di.AppController
-import com.example.hamid.movies.presentation.di.module.ActivityModule
-import com.example.hamid.movies.presentation.di.module.DBModule
-import com.example.hamid.movies.presentation.di.module.SharedPreferencesModule
-import com.example.hamid.movies.presentation.di.module.ViewModelModule
+import com.example.hamid.movies.presentation.di.module.*
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule

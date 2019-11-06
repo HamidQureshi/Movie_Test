@@ -4,9 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.hamid.movies.data.local.db.MovieDao
-import com.example.hamid.movies.data.local.db.MovieRoomDatabase
 import com.example.hamid.movies.utils.helper.MockResponse
+import com.hamid.data.local.db.MovieDaoImpl
+import com.hamid.data.local.db.MovieRoomDatabase
 import org.junit.*
 import org.junit.runner.RunWith
 
@@ -14,7 +14,7 @@ import org.junit.runner.RunWith
 class DBTest {
 
     private lateinit var db: MovieRoomDatabase
-    private lateinit var movieDao: MovieDao
+    private lateinit var movieDaoImpl: MovieDaoImpl
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -27,7 +27,7 @@ class DBTest {
         )
             .allowMainThreadQueries()
             .build()
-        movieDao = db.movieDao()
+        movieDaoImpl = db.movieDao()
     }
 
     @After
@@ -39,7 +39,7 @@ class DBTest {
 
     @Test
     fun getDataWhenNoDataInserted() {
-        val list = movieDao.getAllMovies()
+        val list = movieDaoImpl.getAllMovies()
             .test()
             .values()[0]
 
@@ -48,19 +48,19 @@ class DBTest {
 
     @Test
     fun insertAndGetData() {
-        movieDao.insertAll(movieList)
+        movieDaoImpl.insertAll(movieList)
 
-        movieDao.getAllMovies()
+        movieDaoImpl.getAllMovies()
             .test()
             .assertValue { it.size == movieList.size && it == movieList }
     }
 
     @Test
     fun deleteAndGetData() {
-        movieDao.insertAll(movieList)
+        movieDaoImpl.insertAll(movieList)
 
-        movieDao.deleteAll()
-        val list = movieDao.getAllMovies()
+        movieDaoImpl.deleteAll()
+        val list = movieDaoImpl.getAllMovies()
             .test()
             .values()[0]
 
@@ -70,11 +70,11 @@ class DBTest {
 
     @Test
     fun updateFavouriteMovie() {
-        movieDao.insertAll(movieList)
+        movieDaoImpl.insertAll(movieList)
 
-        movieDao.updateFavouriteMovie(movieList[0].movieId, true)
+        movieDaoImpl.updateFavouriteMovie(movieList[0].movieId, true)
 
-        movieDao.getAllMovies()
+        movieDaoImpl.getAllMovies()
             .test()
             .assertValue { it[0].favourite }
 

@@ -3,8 +3,8 @@ package com.example.hamid.movies.presentation.di.module
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.hamid.movies.data.local.sharedPref.MovieSharedPreference
-import com.example.hamid.movies.utils.Constants
+import com.hamid.data.local.sharedPref.MovieSharedPreference
+import com.hamid.domain.model.utils.Constants
 import dagger.Module
 import dagger.Provides
 import io.reactivex.annotations.NonNull

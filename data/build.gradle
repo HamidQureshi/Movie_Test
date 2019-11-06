@@ -1,0 +1,75 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+    compileSdkVersion globalConfiguration["compileSdkVersion"]
+
+
+    defaultConfig {
+
+        minSdkVersion globalConfiguration["minSdkVersion"]
+        targetSdkVersion globalConfiguration["targetSdkVersion"]
+        versionCode globalConfiguration["versionCode"]
+        versionName globalConfiguration["versionName"]
+        testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
+
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+}
+
+dependencies {
+    implementation project(":domain")
+
+    implementation libsCommon.kotlin
+
+    // Room Database
+    implementation libsCommon.room
+    implementation libsCommon.roomRxJava
+    kapt libsCommon.roomCompiler
+    androidTestImplementation libsCommon.roomTesting
+
+    // JUnit
+    testImplementation libsCommon.junit
+
+    // Mockito Kotlin
+    testImplementation libsCommon.mockitoKotlin
+
+    /* Retrofit using RxJava2, Okhttp, Okhttp logging interceptor, Gson  */
+    api libsCommon.retrofit
+    api libsCommon.retrofitGsonConverter
+    api libsCommon.retrofitRxJava
+    api libsCommon.retrofitConverter
+    api libsCommon.okHttp
+    api libsCommon.gson
+
+    /* Dagger2 */
+    annotationProcessor libsCommon.daggerCompiler
+    implementation libsCommon.daggerAndroid
+    implementation libsCommon.daggerAndroidSupport
+    annotationProcessor libsCommon.daggerAndroidProcessor
+    implementation libsCommon.dagger
+    kapt libsCommon.daggerKotlinAndroidProcessor
+    kapt libsCommon.daggerKotlinCompiler
+
+    implementation libsCommon.espressoIdlingResource
+
+}
+repositories {
+    mavenCentral()
+}

@@ -129,7 +129,7 @@ class ActivityTest {
 
         onView(withId(R.id.progress_bar)).check(matches(withEffectiveVisibility(Visibility.GONE)))
 
-        activityRule!!.activity.viewModel.movieProcessor.dataRepository.nukeDB()
+        activityRule!!.activity.viewModel.movieProcessor.movieRepositoryImpl.nukeDB()
 
         activityRule!!.activity.viewModel.formattedMovieList.observeForTesting {
             if (activityRule!!.activity.viewModel.formattedMovieList.value!!.status == Status.ERROR) {

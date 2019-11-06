@@ -1,13 +1,13 @@
 package com.example.hamid.movies.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.hamid.movies.data.local.db.MovieDao
-import com.example.hamid.movies.data.local.sharedPref.MovieSharedPreference
-import com.example.hamid.movies.data.model.MovieResponse
-import com.example.hamid.movies.data.remote.APIService
 import com.example.hamid.movies.presentation.ViewModelTest
-import com.example.hamid.movies.utils.Constants
 import com.example.hamid.movies.utils.helper.MockResponse
+import com.hamid.data.MovieRepositoryImpl
+import com.hamid.data.local.db.MovieDaoImpl
+import com.hamid.data.local.sharedPref.MovieSharedPreference
+import com.hamid.data.model.MovieResponse
+import com.hamid.data.remote.APIService
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.atLeastOnce
 import com.nhaarman.mockitokotlin2.mock
@@ -29,10 +29,10 @@ class RepositoryTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     private var apiService: APIService = mock()
-    private var movieDAO: MovieDao = mock()
+    private var movieDAOImpl: MovieDaoImpl = mock()
     private var sharedPreference: MovieSharedPreference = mock()
 
-    private lateinit var dataRepo: DataRepository
+    private lateinit var movieRepoImpl: MovieRepositoryImpl
 
     private var pageNumber = 1
 
@@ -48,14 +48,15 @@ class RepositoryTest {
         ).thenReturn(Single.just(MockResponse.responsePage1))
 
         `when`(
-            movieDAO.getAllMovies()
+            movieDAOImpl.getAllMovies()
         ).thenReturn(Flowable.just(MockResponse.movieResponseList))
 
         `when`(
             sharedPreference.getPageNumber()
         ).thenReturn(pageNumber)
 
-        dataRepo = DataRepository(apiService, movieDAO, sharedPreference)
+        movieRepoImpl =
+            MovieRepositoryImpl(apiService, movieDAOImpl, sharedPreference)
     }
 
     @After
@@ -66,7 +67,7 @@ class RepositoryTest {
     @Test
     fun getMoviesFromServer_apiCalled() {
 
-        dataRepo.getMoviesFromServer()
+        movieRepoImpl.getMoviesFromServer()
 
         verify(apiService, atLeastOnce()).fetchMovies(any(), any())
     }
@@ -74,25 +75,25 @@ class RepositoryTest {
     @Test
     fun insertMovieListToDB_insertToDbCall() {
 
-        dataRepo.insertMovieListToDB(MockResponse.movieResponseList)
+        movieRepoImpl.insertMovieListToDB(MockResponse.movieResponseList)
 
-        verify(movieDAO, atLeastOnce()).insertAll(MockResponse.movieResponseList)
-        verify(movieDAO, atLeastOnce()).getAllMovies()
+        verify(movieDAOImpl, atLeastOnce()).insertAll(MockResponse.movieResponseList)
+        verify(movieDAOImpl, atLeastOnce()).getAllMovies()
     }
 
     @Test
     fun updateFavouriteMovie_updateDbCalled() {
 
-        dataRepo.updateFavouriteMovie(any(), any())
+        movieRepoImpl.updateFavouriteMovie(any(), any())
 
-        verify(movieDAO, atLeastOnce()).updateFavouriteMovie(any(), any())
-        verify(movieDAO, atLeastOnce()).getAllMovies()
+        verify(movieDAOImpl, atLeastOnce()).updateFavouriteMovie(any(), any())
+        verify(movieDAOImpl, atLeastOnce()).getAllMovies()
     }
 
     @Test
     fun currentPageNumber_returnCurrentPageInPref() {
 
-        val pageNumber = dataRepo.currentPageNumber()
+        val pageNumber = movieRepoImpl.currentPageNumber()
 
         assert(pageNumber > 0)
 
@@ -102,7 +103,7 @@ class RepositoryTest {
     @Test
     fun incrementPageNumber_incrementPageNumberInPref() {
 
-        dataRepo.incrementPageNumber()
+        movieRepoImpl.incrementPageNumber()
 
         verify(sharedPreference, atLeastOnce()).incrementPageNumber()
     }
@@ -111,7 +112,7 @@ class RepositoryTest {
     fun getMoviesFromServer_returnsMovies() {
         val expectedValue = MockResponse.responsePage1
 
-        val actualValue = dataRepo.getMoviesFromServer()
+        val actualValue = movieRepoImpl.getMoviesFromServer()
             .test()
             .values()
 
@@ -122,7 +123,7 @@ class RepositoryTest {
     fun getAllMovies_containsList() {
         val expectedValue = MockResponse.movieResponseList
 
-        val actualValue = dataRepo.movieList
+        val actualValue = movieRepoImpl.movieList
             .test()
             .values()
 
@@ -134,11 +135,12 @@ class RepositoryTest {
     fun getAllMovies_containsEmptyList() {
         val expectedValue = emptyList<MovieResponse>()
 
-        `when`(movieDAO.getAllMovies()).thenReturn(Flowable.just(expectedValue))
+        `when`(movieDAOImpl.getAllMovies()).thenReturn(Flowable.just(expectedValue))
 
-        dataRepo = DataRepository(apiService, movieDAO, sharedPreference)
+        movieRepoImpl =
+            MovieRepositoryImpl(apiService, movieDAOImpl, sharedPreference)
 
-        val actualValue = dataRepo.movieList
+        val actualValue = movieRepoImpl.movieList
             .test()
             .values()
 
@@ -152,7 +154,7 @@ class RepositoryTest {
             .test()
             .values()
 
-        val dbData = movieDAO.getAllMovies()
+        val dbData = movieDAOImpl.getAllMovies()
             .test()
             .values()
 
@@ -166,7 +168,7 @@ class RepositoryTest {
             .test()
             .values()
 
-        val dbData = movieDAO.getAllMovies()
+        val dbData = movieDAOImpl.getAllMovies()
             .test()
             .values()
 
@@ -176,7 +178,7 @@ class RepositoryTest {
     @Test
     fun getDataFromServerAndDBDataSame() {
 
-        val actualValue = dataRepo.movieList
+        val actualValue = movieRepoImpl.movieList
             .test()
             .values()
 

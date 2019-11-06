@@ -3,14 +3,14 @@ package com.example.hamid.movies.presentation.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.hamid.movies.domain.MovieProcessor
-import com.example.hamid.movies.domain.model.Response
+import com.hamid.domain.model.model.Response
+import com.hamid.domain.model.usecases.MoviesUseCase
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class MovieViewModel @Inject
 constructor(
-    val movieProcessor: MovieProcessor
+    private val moviesUseCase: MoviesUseCase
 ) : ViewModel() {
 
     companion object {
@@ -22,12 +22,17 @@ constructor(
 
     fun getData() {
 
-        compositeDisposable.add( movieProcessor.getData()
+        compositeDisposable.add(
+            moviesUseCase.getMoviesFromDB()
             .subscribe({ response ->
                 Log.d(TAG, "On Next Called")
+                if (response.data.isEmpty()) {
+                    moviesUseCase.getMoviesFromServer()
+                }
                 formattedMovieList.postValue(response)
             }, { error ->
                 Log.d(TAG, "On Error Called $error")
+                moviesUseCase.getMoviesFromServer()
             }, {
                 Log.d(TAG, "On Complete Called")
             }))
@@ -35,15 +40,15 @@ constructor(
     }
 
     fun getMoviesFromServer() =
-        movieProcessor.getMoviesFromServer()
+        moviesUseCase.getMoviesFromServer()
 
     fun updateFavouriteMovie(movieID: Int, favourite: Boolean) =
-        movieProcessor.updateFavouriteMovie(movieID, favourite)
+        moviesUseCase.markMovieFavourite(movieID, favourite)
 
     public override fun onCleared() {
         super.onCleared()
         compositeDisposable.clear()
-        movieProcessor.clearDisposable()
+        moviesUseCase.clearDisposable()
     }
 
 }

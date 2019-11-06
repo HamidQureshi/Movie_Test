@@ -1,9 +1,9 @@
 package com.example.hamid.movies.domain
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.hamid.movies.data.DataRepository
 import com.example.hamid.movies.presentation.ViewModelTest
 import com.example.hamid.movies.utils.helper.MockResponse
+import com.hamid.data.MovieRepositoryImpl
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -21,13 +21,13 @@ class MovieProcessorTest {
     @get:Rule
     val rxSchedulerRule = ViewModelTest.RxSchedulerRule()
 
-    private var dataRepo: DataRepository = mock()
+    private var movieRepoImpl: MovieRepositoryImpl = mock()
     private lateinit var movieProcessor: MovieProcessor
 
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        movieProcessor = MovieProcessor(dataRepo)
+        movieProcessor = MovieProcessor(movieRepoImpl)
     }
 
     @After
@@ -39,11 +39,11 @@ class MovieProcessorTest {
     fun getData_whenNoDataSaved() {
 
         `when`(
-            dataRepo.movieList
+            movieRepoImpl.movieList
         ).thenReturn(Flowable.just(emptyList()))
 
         `when`(
-            dataRepo.getMoviesFromServer()
+            movieRepoImpl.getMoviesFromServer()
         ).thenReturn(Single.just(MockResponse.responsePage1))
 
 
@@ -59,7 +59,7 @@ class MovieProcessorTest {
 
     @Test
     fun getData_whenDataSaved() {
-        `when`(dataRepo.movieList).thenReturn(Flowable.just(MockResponse.movieResponseList))
+        `when`(movieRepoImpl.movieList).thenReturn(Flowable.just(MockResponse.movieResponseList))
 
         var expectedResponse = MockResponse.response_success
 
@@ -76,16 +76,16 @@ class MovieProcessorTest {
     @Test
     fun getMovieListFromServer_callsDataRepo() {
 
-        `when`(dataRepo.getMoviesFromServer()).thenReturn(Single.just(MockResponse.responsePage1))
+        `when`(movieRepoImpl.getMoviesFromServer()).thenReturn(Single.just(MockResponse.responsePage1))
 
         movieProcessor.getMoviesFromServer()
-        verify(dataRepo, atLeast(1)).getMoviesFromServer()
+        verify(movieRepoImpl, atLeast(1)).getMoviesFromServer()
     }
 
     @Test
     fun updateFavouriteMovie_callsUpdateFromRepository() {
         movieProcessor.updateFavouriteMovie(any(), any())
-        verify(dataRepo, only()).updateFavouriteMovie(any(), any())
+        verify(movieRepoImpl, only()).updateFavouriteMovie(any(), any())
     }
 
 }

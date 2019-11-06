@@ -9,18 +9,16 @@ import androidx.room.Room
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
-import com.example.hamid.movies.data.DataRepository
-import com.example.hamid.movies.data.local.db.MovieDao
-import com.example.hamid.movies.data.local.db.MovieRoomDatabase
-import com.example.hamid.movies.data.local.sharedPref.MovieSharedPreference
-import com.example.hamid.movies.data.remote.APIService
-import com.example.hamid.movies.data.remote.HttpClientModule
-import com.example.hamid.movies.domain.MovieProcessor
 import com.example.hamid.movies.domain.model.Status
 import com.example.hamid.movies.presentation.ui.activity.MovieActivity
 import com.example.hamid.movies.presentation.ui.viewmodel.MovieViewModel
-import com.example.hamid.movies.utils.Constants
 import com.example.hamid.movies.utils.EspressoIdlingResource
+import com.hamid.data.MovieRepositoryImpl
+import com.hamid.data.di.HttpClientModule
+import com.hamid.data.local.db.MovieDaoImpl
+import com.hamid.data.local.db.MovieRoomDatabase
+import com.hamid.data.local.sharedPref.MovieSharedPreference
+import com.hamid.data.remote.APIService
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
@@ -34,8 +32,8 @@ class InstrumentedTest {
     private lateinit var apiService: APIService
     private lateinit var db: MovieRoomDatabase
     private lateinit var sharedPreference: MovieSharedPreference
-    private lateinit var movieDao: MovieDao
-    private lateinit var repository: DataRepository
+    private lateinit var movieDaoImpl: MovieDaoImpl
+    private lateinit var repositoryImpl: MovieRepositoryImpl
     private lateinit var movieProcessor: MovieProcessor
     private lateinit var viewModel: MovieViewModel
 
@@ -59,7 +57,7 @@ class InstrumentedTest {
             context, MovieRoomDatabase::class.java
         ).build()
 
-        movieDao = db.movieDao()
+        movieDaoImpl = db.movieDao()
 
         val httpModule = HttpClientModule()
         val cache = httpModule.provideCache(context.applicationContext as Application)
@@ -75,13 +73,14 @@ class InstrumentedTest {
             )
         )
 
-        repository = DataRepository(apiService, movieDao, sharedPreference)
+        repositoryImpl =
+            MovieRepositoryImpl(apiService, movieDaoImpl, sharedPreference)
 
-        movieProcessor = MovieProcessor(repository)
+        movieProcessor = MovieProcessor(repositoryImpl)
 
         IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingResource)
         viewModel = MovieViewModel(movieProcessor)
-        repository.getMoviesFromServer()
+        repositoryImpl.getMoviesFromServer()
         viewModel.getData()
     }
 
@@ -112,7 +111,7 @@ class InstrumentedTest {
     fun verifyApiResponseAndDbSameSize() {
 
         viewModel.formattedMovieList.observeForTesting {
-            Assert.assertTrue(viewModel.formattedMovieList.value!!.data.size == movieDao.getAllMovies().test().values()[0].size)
+            Assert.assertTrue(viewModel.formattedMovieList.value!!.data.size == movieDaoImpl.getAllMovies().test().values()[0].size)
         }
     }
 
@@ -120,7 +119,7 @@ class InstrumentedTest {
     fun verifyApiResponseAndDbSameData() {
 
         viewModel.formattedMovieList.observeForTesting {
-            Assert.assertTrue(viewModel.formattedMovieList.value!!.data.size == movieDao.getAllMovies().test().values()[0].size)
+            Assert.assertTrue(viewModel.formattedMovieList.value!!.data.size == movieDaoImpl.getAllMovies().test().values()[0].size)
         }
     }
 

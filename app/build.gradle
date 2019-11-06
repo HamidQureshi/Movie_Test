@@ -7,18 +7,21 @@ apply plugin: 'kotlin-kapt'
 android {
 
     buildToolsVersion = '29.0.2'
-    compileSdkVersion rootProject.compileSdkVersion
+    compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.example.hamid.tab"
+        applicationId "com.example.hamid.movies"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
+        testInstrumentationRunner rootProject.testInstrumentationRunner
         multiDexEnabled true
 
     }
     buildTypes {
+        debug {
+            testCoverageEnabled = true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -58,67 +61,75 @@ android.sourceSets{
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(path: ':domain')
+    api project(path: ':data')
+
     /* Kotlin */
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    implementation libsCommon.kotlin
 
     /* Android Support Library: RecyclerView, CardView  */
-    implementation "androidx.appcompat:appcompat:$accompatVersion"
-    implementation "com.google.android.material:material:$materialVersion"
-    implementation "androidx.cardview:cardview:$androidxVersion"
-    implementation "androidx.recyclerview:recyclerview:$recyclerVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
-    implementation "androidx.multidex:multidex:$multidexVersion"
-    implementation "androidx.annotation:annotation:$annotationVersion"
+    implementation libsPresentation.appCompat
+    implementation libsPresentation.material
+    implementation libsPresentation.cardview
+    implementation libsPresentation.recyclerview
+    implementation libsPresentation.constraintLayout
+    implementation libsPresentation.multidex
+    implementation libsPresentation.annotation
     implementation group: 'commons-io', name: 'commons-io', version: "$commonsVersion"
 
     /* Architecture Lifecycle components */
-    implementation "androidx.lifecycle:lifecycle-extensions:$archCompomentVersion"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$livedataKtx"
-    testImplementation "androidx.arch.core:core-testing:$archCompomentVersion"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$archCompomentVersion"
+    implementation libsPresentation.lifecycleExtensions
+    testImplementation libsPresentation.coreTesting
+    annotationProcessor libsPresentation.lifecycleCompiler
+    implementation libsPresentation.livedata
 
-    /* RxJava */
-    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-    // RxAndroid */
-    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+    // RxJava and RxAndroid
+    implementation libsCommon.rxJava
+    implementation libsCommon.rxAndroid
 
     /* ROOM */
-    implementation "androidx.room:room-runtime:$roomVersion"
-    implementation "androidx.room:room-rxjava2:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
-    androidTestImplementation "androidx.room:room-testing:$roomVersion"
+    implementation libsCommon.room
+    implementation libsCommon.roomRxJava
+    kapt libsCommon.roomCompiler
+    androidTestImplementation libsCommon.roomTesting
 
     /* Dagger2 */
-    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-    implementation "com.google.dagger:dagger-android:$daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
-    implementation "com.google.dagger:dagger:$daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    annotationProcessor libsCommon.daggerCompiler
+    implementation libsCommon.daggerAndroid
+    implementation libsCommon.daggerAndroidSupport
+    annotationProcessor libsCommon.daggerAndroidProcessor
+    implementation libsCommon.dagger
+    kapt libsCommon.daggerKotlinAndroidProcessor
+    kapt libsCommon.daggerKotlinCompiler
 
-    /* Retrofit using RxJava2, Okhttp, Okhttp logging interceptor, Gson  */
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation "com.google.code.gson:gson:$gsonVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3Version"
-    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp3Version"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
-    implementation "com.squareup.okhttp:okhttp:$okhttpVersion"
+//    /* Retrofit using RxJava2, Okhttp, Okhttp logging interceptor, Gson  */
+//    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+//    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+//    implementation "com.google.code.gson:gson:$gsonVersion"
+      implementation libsCommon.okhttpLogging
+//    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp3Version"
+//    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+//    implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
+//    implementation "com.squareup.okhttp:okhttp:$okhttpVersion"
 
     /* Unit test */
-    testImplementation "junit:junit:$junitVersion"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
-    testImplementation "org.mockito:mockito-core:$mockitoVersion"
-    testImplementation "org.mockito:mockito-inline:$mockitoInlineVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-    implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
-    androidTestImplementation "androidx.test.ext:junit:$androidxTest"
-    androidTestImplementation "androidx.test:core:$androidxTest"
-    androidTestImplementation "androidx.test:rules:$androidxTestRules"
-    androidTestImplementation "androidx.test:runner:$androidxTestRules"
+//    testImplementation "junit:junit:$junitVersion"
+//    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+//    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+//    testImplementation "org.mockito:mockito-inline:$mockitoInlineVersion"
+//    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    implementation libsCommon.espressoIdlingResource
+//    androidTestImplementation "androidx.test.ext:junit:$androidxTest"
+//    androidTestImplementation "androidx.test:core:$androidxTest"
+//    androidTestImplementation "androidx.test:rules:$androidxTestRules"
+//    androidTestImplementation "androidx.test:runner:$androidxTestRules"
+
+    // JUnit
+    testImplementation libsCommon.junit
+
+    // Mockito Kotlin
+    testImplementation libsCommon.mockitoKotlin
 
     /* For recycler view actions */
     androidTestImplementation ("androidx.test.espresso:espresso-contrib:$espressoVersion") {
@@ -127,9 +138,9 @@ dependencies {
         exclude module: 'recyclerview-v7'
     }
 
-    implementation "com.squareup.picasso:picasso:$picassoVersion"
+    implementation libsPresentation.picasso
 
-    androidTestImplementation "android.arch.core:core-testing:1.1.1"
+    androidTestImplementation libsPresentation.coreTesting
 
 
 }

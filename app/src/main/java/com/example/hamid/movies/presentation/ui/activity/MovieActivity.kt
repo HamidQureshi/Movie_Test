@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hamid.movies.R
-import com.example.hamid.movies.domain.model.Status
 import com.example.hamid.movies.presentation.factory.ViewModelFactory
 import com.example.hamid.movies.presentation.ui.adaptar.MovieListAdapter
 import com.example.hamid.movies.presentation.ui.viewmodel.MovieViewModel
+import com.hamid.domain.model.model.Status
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_movie.*
 import javax.inject.Inject

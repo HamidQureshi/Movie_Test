@@ -9,8 +9,8 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hamid.movies.R
-import com.example.hamid.movies.domain.model.MovieFormatted
 import com.example.hamid.movies.presentation.ui.viewmodel.MovieViewModel
+import com.hamid.domain.model.model.MovieFormatted
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.movie_card.view.*
 

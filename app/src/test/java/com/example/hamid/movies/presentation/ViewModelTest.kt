@@ -3,7 +3,6 @@ package com.example.hamid.movies.presentation
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import com.example.hamid.movies.domain.MovieProcessor
 import com.example.hamid.movies.domain.model.Status
 import com.example.hamid.movies.presentation.ui.viewmodel.MovieViewModel
 import com.example.hamid.movies.utils.helper.MockResponse
