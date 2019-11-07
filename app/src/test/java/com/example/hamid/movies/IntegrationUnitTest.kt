@@ -32,7 +32,7 @@ class IntegrationUnitTest {
     private var apiService: APIService = mock()
     private var movieDAOImpl: MovieDaoImpl = mock()
     private var sharedPreference: MovieSharedPreference = mock()
-    private var mapper= MovieModelMapperImpl()
+    private var mapper = MovieModelMapperImpl()
 
     private lateinit var movieRepoImpl: MovieRepositoryImpl
     private lateinit var movieUseCase: MoviesUseCase
@@ -54,7 +54,7 @@ class IntegrationUnitTest {
         ).thenReturn(Flowable.just(MockRepoResponse.movieResponseList))
 
         movieRepoImpl =
-            MovieRepositoryImpl(apiService, movieDAOImpl, sharedPreference,mapper)
+            MovieRepositoryImpl(apiService, movieDAOImpl, sharedPreference, mapper)
         movieUseCase = MoviesUseCase(movieRepoImpl)
         viewModel = MovieViewModel(movieUseCase)
 
@@ -76,6 +76,10 @@ class IntegrationUnitTest {
 
         viewModel.formattedMovieList.observeForTesting {
             assertEquals(viewModel.formattedMovieList.value!!.data.size, apiData[0].results.size)
+            assertEquals(
+                viewModel.formattedMovieList.value!!.data,
+                mapper.fromEntity(apiData[0].results).data
+            )
         }
     }
 
@@ -88,6 +92,10 @@ class IntegrationUnitTest {
 
         viewModel.formattedMovieList.observeForTesting {
             assertEquals(viewModel.formattedMovieList.value!!.data.size, dbData[0].size)
+            assertEquals(
+                viewModel.formattedMovieList.value!!.data,
+                mapper.fromEntity(dbData[0]).data
+            )
         }
     }
 

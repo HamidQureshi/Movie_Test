@@ -8,14 +8,10 @@ targetCompatibility = "8"
 dependencies {
     implementation libsCommon.kotlin
 
-    // RxJava and RxAndroid
     implementation libsCommon.rxJava
     implementation libsCommon.rxAndroid
 
-    // JUnit
     testImplementation libsCommon.junit
-
-    // Mockito Kotlin
     testImplementation libsCommon.mockitoKotlin
 }
 
@@ -42,4 +38,3 @@ compileTestKotlin {
         jvmTarget = "1.8"
     }
 }
-

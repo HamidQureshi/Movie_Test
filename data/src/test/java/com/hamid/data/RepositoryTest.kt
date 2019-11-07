@@ -1,8 +1,6 @@
 package com.hamid.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import com.hamid.data.local.db.MovieDaoImpl
 import com.hamid.data.local.sharedPref.MovieSharedPreference
 import com.hamid.data.model.MovieModelMapperImpl
@@ -16,6 +14,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.Flowable
 import io.reactivex.Single
+import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 import org.junit.After
@@ -27,7 +26,6 @@ import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
 import org.mockito.Mockito.`when`
-import io.reactivex.android.plugins.RxAndroidPlugins
 
 
 class RepositoryTest {
@@ -42,7 +40,7 @@ class RepositoryTest {
         mock()
     private var sharedPreference: MovieSharedPreference =
         mock()
-    private var mapper= MovieModelMapperImpl()
+    private var mapper = MovieModelMapperImpl()
 
     private lateinit var movieRepoImpl: MovieRepositoryImpl
 
@@ -136,13 +134,13 @@ class RepositoryTest {
 
     @Test
     fun getMoviesFromServer_returnsMovies() {
-//        val expectedValue = MockRepoResponse.responsePage1
-//
-//        val actualValue = movieRepoImpl.getMoviesFromServer()
-//            .test()
-//            .values()
-//
-//        assertEquals(expectedValue, actualValue[0])
+        val expectedValue = MockRepoResponse.responsePage1
+
+        val actualValue = apiService.fetchMovies("", 1)
+            .test()
+            .values()
+
+        assertEquals(expectedValue, actualValue[0])
     }
 
     @Test
@@ -214,16 +212,6 @@ class RepositoryTest {
             actualValue[0].data
         )
 
-    }
-
-    private fun <T> LiveData<T>.observeForTesting(block: () -> Unit) {
-        val observer = Observer<T> { }
-        try {
-            observeForever(observer)
-            block()
-        } finally {
-            removeObserver(observer)
-        }
     }
 
     class RxSchedulerRule : TestRule {

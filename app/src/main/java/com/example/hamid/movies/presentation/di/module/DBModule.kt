@@ -64,6 +64,7 @@ class DBModule {
 
     @Provides
     @Singleton
-    fun provideMoviesUseCase(@NonNull movieRepository: MovieRepository) = MoviesUseCase(movieRepository)
+    fun provideMoviesUseCase(@NonNull movieRepository: MovieRepository) =
+        MoviesUseCase(movieRepository)
 
 }

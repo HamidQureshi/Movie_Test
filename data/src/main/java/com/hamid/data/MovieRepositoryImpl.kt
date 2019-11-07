@@ -23,7 +23,7 @@ class MovieRepositoryImpl @Inject constructor(
     private val movieDAOImpl: MovieDaoImpl,
     private val sharedPreference: MovieSharedPreference,
     private val mapper: MovieModelMapperImpl
-): MovieRepository {
+) : MovieRepository {
 
     private var disposable = CompositeDisposable()
 

@@ -124,7 +124,11 @@ class InstrumentedTest {
     fun verifyApiResponseAndDbSameData() {
 
         viewModel.formattedMovieList.observeForTesting {
-            Assert.assertTrue(viewModel.formattedMovieList.value!!.data.size == movieDaoImpl.getAllMovies().test().values()[0].size)
+            Assert.assertTrue(
+                viewModel.formattedMovieList.value!!.data == mapper.fromEntity(
+                    movieDaoImpl.getAllMovies().test().values()[0]
+                ).data
+            )
         }
     }
 

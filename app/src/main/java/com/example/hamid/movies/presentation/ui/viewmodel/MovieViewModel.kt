@@ -24,18 +24,19 @@ constructor(
 
         compositeDisposable.add(
             moviesUseCase.getMoviesFromDB()
-            .subscribe({ response ->
-                Log.d(TAG, "On Next Called")
-                if (response.data.isEmpty()) {
+                .subscribe({ response ->
+                    Log.d(TAG, "On Next Called")
+                    if (response.data.isEmpty()) {
+                        moviesUseCase.getMoviesFromServer()
+                    }
+                    formattedMovieList.postValue(response)
+                }, { error ->
+                    Log.d(TAG, "On Error Called $error")
                     moviesUseCase.getMoviesFromServer()
-                }
-                formattedMovieList.postValue(response)
-            }, { error ->
-                Log.d(TAG, "On Error Called $error")
-                moviesUseCase.getMoviesFromServer()
-            }, {
-                Log.d(TAG, "On Complete Called")
-            }))
+                }, {
+                    Log.d(TAG, "On Complete Called")
+                })
+        )
 
     }
 

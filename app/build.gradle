@@ -51,7 +51,7 @@ android {
 
 }
 
-android.sourceSets{
+android.sourceSets {
     test {
         java.srcDirs += "$projectDir/src/utils/helper"
     }
@@ -64,8 +64,6 @@ dependencies {
     implementation project(path: ':domain')
     api project(path: ':data')
 
-    /* Kotlin */
-//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     implementation libsCommon.kotlin
 
     /* Android Support Library: RecyclerView, CardView  */
@@ -80,7 +78,8 @@ dependencies {
 
     /* Architecture Lifecycle components */
     implementation libsPresentation.lifecycleExtensions
-    testImplementation libsPresentation.coreTesting
+    testImplementation libsCommon.coreTesting
+    androidTestImplementation libsCommon.coreTesting
     annotationProcessor libsPresentation.lifecycleCompiler
     implementation libsPresentation.livedata
 
@@ -103,36 +102,19 @@ dependencies {
     kapt libsCommon.daggerKotlinAndroidProcessor
     kapt libsCommon.daggerKotlinCompiler
 
-//    /* Retrofit using RxJava2, Okhttp, Okhttp logging interceptor, Gson  */
-//    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-//    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-//    implementation "com.google.code.gson:gson:$gsonVersion"
-      implementation libsCommon.okhttpLogging
-//    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp3Version"
-//    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
-//    implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
-//    implementation "com.squareup.okhttp:okhttp:$okhttpVersion"
+    implementation libsCommon.okhttpLogging
 
-    /* Unit test */
-//    testImplementation "junit:junit:$junitVersion"
-//    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
-//    testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation libsCommon.mockitoInline
-//    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     implementation libsCommon.espressoIdlingResource
     androidTestImplementation libsCommon.extJunit
     androidTestImplementation libsCommon.core
     androidTestImplementation libsCommon.rules
     androidTestImplementation libsCommon.runner
-
-    // JUnit
     testImplementation libsCommon.junit
-
-    // Mockito Kotlin
     testImplementation libsCommon.mockitoKotlin
 
     /* For recycler view actions */
-    androidTestImplementation ("androidx.test.espresso:espresso-contrib:$espressoVersion") {
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion") {
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
@@ -140,7 +122,6 @@ dependencies {
 
     implementation libsPresentation.picasso
 
-    androidTestImplementation libsPresentation.coreTesting
 
 
 }

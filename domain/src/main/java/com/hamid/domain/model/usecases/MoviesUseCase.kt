@@ -10,11 +10,12 @@ class MoviesUseCase(private val repository: MovieRepository) {
 
     fun getMoviesFromServer() = repository.getMoviesFromServer()
 
-    fun markMovieFavourite(movieID: Int, favourite: Boolean) = repository.updateFavouriteMovie(movieID, favourite)
+    fun markMovieFavourite(movieID: Int, favourite: Boolean) =
+        repository.updateFavouriteMovie(movieID, favourite)
 
     fun nukeDB() = repository.nukeDB()
 
-    fun getcurrentPageNumber():Int = repository.currentPageNumber()
+    fun getcurrentPageNumber(): Int = repository.currentPageNumber()
 
     fun incrementPageNumber() = repository.incrementPageNumber()
 
