@@ -57,6 +57,7 @@ ext {
             //Unit
             junit           : ('junit:junit:' + junitVersion),
             mockitoKotlin   : ('com.nhaarman.mockitokotlin2:mockito-kotlin:' + mockitoKotlinVersion),
+            mockitoInline   : ('org.mockito:mockito-inline:' + mockitoInlineVersion),
 
             //Dagger
             daggerCompiler   : ('com.google.dagger:dagger-compiler:' + daggerVersion),
@@ -88,9 +89,15 @@ ext {
             okHttp : ('com.squareup.okhttp:okhttp:' + okhttpVersion),
             okhttpLogging : ('com.squareup.okhttp3:logging-interceptor:' + okhttp3Version),
 
-
             //Gson
             gson : ('com.google.code.gson:gson:' + gsonVersion),
+
+            //testing
+            extJunit : ('androidx.test.ext:junit:' + androidxTest),
+            core : ('androidx.test:core:' + androidxTest),
+            rules : ('androidx.test:rules:' + androidxTestRules),
+            runner : ('androidx.test:runner:' + androidxTestRules),
+
 
     ]
 
@@ -115,7 +122,7 @@ ext {
             livedata   : ('androidx.lifecycle:lifecycle-livedata-ktx:' + livedataKtx),
 
             picasso   : ('com.squareup.picasso:picasso:' + picassoVersion),
-            coreTesting   : ('android.arch.core:core-testing:' + coreTestingVersion),
+//            coreTesting   : ('android.arch.core:core-testing:' + coreTestingVersion),
 
     ]
 

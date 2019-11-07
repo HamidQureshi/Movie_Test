@@ -9,16 +9,19 @@ import androidx.room.Room
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
-import com.example.hamid.movies.domain.model.Status
+import com.example.hamid.movies.presentation.di.module.HttpClientModule
 import com.example.hamid.movies.presentation.ui.activity.MovieActivity
 import com.example.hamid.movies.presentation.ui.viewmodel.MovieViewModel
-import com.example.hamid.movies.utils.EspressoIdlingResource
 import com.hamid.data.MovieRepositoryImpl
-import com.hamid.data.di.HttpClientModule
 import com.hamid.data.local.db.MovieDaoImpl
 import com.hamid.data.local.db.MovieRoomDatabase
 import com.hamid.data.local.sharedPref.MovieSharedPreference
+import com.hamid.data.model.MovieModelMapperImpl
 import com.hamid.data.remote.APIService
+import com.hamid.data.utils.EspressoIdlingResource
+import com.hamid.domain.model.model.Status
+import com.hamid.domain.model.usecases.MoviesUseCase
+import com.hamid.domain.model.utils.Constants
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
@@ -33,8 +36,9 @@ class InstrumentedTest {
     private lateinit var db: MovieRoomDatabase
     private lateinit var sharedPreference: MovieSharedPreference
     private lateinit var movieDaoImpl: MovieDaoImpl
+    private val mapper = MovieModelMapperImpl()
     private lateinit var repositoryImpl: MovieRepositoryImpl
-    private lateinit var movieProcessor: MovieProcessor
+    private lateinit var moviesUseCase: MoviesUseCase
     private lateinit var viewModel: MovieViewModel
 
 
@@ -74,12 +78,13 @@ class InstrumentedTest {
         )
 
         repositoryImpl =
-            MovieRepositoryImpl(apiService, movieDaoImpl, sharedPreference)
+            MovieRepositoryImpl(apiService, movieDaoImpl, sharedPreference, mapper)
 
-        movieProcessor = MovieProcessor(repositoryImpl)
+        moviesUseCase = MoviesUseCase(repositoryImpl)
+
 
         IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingResource)
-        viewModel = MovieViewModel(movieProcessor)
+        viewModel = MovieViewModel(moviesUseCase)
         repositoryImpl.getMoviesFromServer()
         viewModel.getData()
     }

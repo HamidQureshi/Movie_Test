@@ -3,13 +3,14 @@ package com.example.hamid.movies
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import com.example.hamid.movies.presentation.ViewModelTest
 import com.example.hamid.movies.presentation.ui.viewmodel.MovieViewModel
-import com.example.hamid.movies.utils.helper.MockResponse
 import com.hamid.data.MovieRepositoryImpl
 import com.hamid.data.local.db.MovieDaoImpl
 import com.hamid.data.local.sharedPref.MovieSharedPreference
+import com.hamid.data.model.MovieModelMapperImpl
 import com.hamid.data.remote.APIService
+import com.hamid.data.utils.helper.MockRepoResponse
+import com.hamid.domain.model.usecases.MoviesUseCase
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.Flowable
@@ -31,9 +32,10 @@ class IntegrationUnitTest {
     private var apiService: APIService = mock()
     private var movieDAOImpl: MovieDaoImpl = mock()
     private var sharedPreference: MovieSharedPreference = mock()
+    private var mapper= MovieModelMapperImpl()
 
     private lateinit var movieRepoImpl: MovieRepositoryImpl
-    private lateinit var movieProcessor: MovieProcessor
+    private lateinit var movieUseCase: MoviesUseCase
     private lateinit var viewModel: MovieViewModel
 
     @Before
@@ -45,16 +47,16 @@ class IntegrationUnitTest {
                 any(),
                 any()
             )
-        ).thenReturn(Single.just(MockResponse.responsePage1))
+        ).thenReturn(Single.just(MockRepoResponse.responsePage1))
 
         `when`(
             movieDAOImpl.getAllMovies()
-        ).thenReturn(Flowable.just(MockResponse.movieResponseList))
+        ).thenReturn(Flowable.just(MockRepoResponse.movieResponseList))
 
         movieRepoImpl =
-            MovieRepositoryImpl(apiService, movieDAOImpl, sharedPreference)
-        movieProcessor = MovieProcessor(movieRepoImpl)
-        viewModel = MovieViewModel(movieProcessor)
+            MovieRepositoryImpl(apiService, movieDAOImpl, sharedPreference,mapper)
+        movieUseCase = MoviesUseCase(movieRepoImpl)
+        viewModel = MovieViewModel(movieUseCase)
 
         viewModel.getData()
 

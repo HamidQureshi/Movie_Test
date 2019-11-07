@@ -20,9 +20,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.example.hamid.movies.InstrumentedTest
 import com.example.hamid.movies.R
-import com.example.hamid.movies.domain.model.Status
 import com.example.hamid.movies.presentation.ui.activity.MovieActivity
-import com.example.hamid.movies.utils.EspressoIdlingResource
+import com.hamid.data.utils.EspressoIdlingResource
+import com.hamid.domain.model.model.Status
 import org.hamcrest.Matchers.`is`
 import org.junit.*
 
@@ -129,7 +129,7 @@ class ActivityTest {
 
         onView(withId(R.id.progress_bar)).check(matches(withEffectiveVisibility(Visibility.GONE)))
 
-        activityRule!!.activity.viewModel.movieProcessor.movieRepositoryImpl.nukeDB()
+        activityRule!!.activity.viewModel.moviesUseCase.nukeDB()
 
         activityRule!!.activity.viewModel.formattedMovieList.observeForTesting {
             if (activityRule!!.activity.viewModel.formattedMovieList.value!!.status == Status.ERROR) {

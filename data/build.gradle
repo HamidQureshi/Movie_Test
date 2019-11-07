@@ -30,6 +30,11 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
+    }
+
 
 }
 
@@ -44,9 +49,12 @@ dependencies {
     kapt libsCommon.roomCompiler
     androidTestImplementation libsCommon.roomTesting
 
+    // RxJava and RxAndroid
+    implementation libsCommon.rxJava
+    implementation libsCommon.rxAndroid
+
     // JUnit
     testImplementation libsCommon.junit
-
     // Mockito Kotlin
     testImplementation libsCommon.mockitoKotlin
 
@@ -69,7 +77,15 @@ dependencies {
 
     implementation libsCommon.espressoIdlingResource
 
-}
-repositories {
-    mavenCentral()
+    androidTestImplementation libsCommon.extJunit
+    androidTestImplementation libsCommon.core
+    androidTestImplementation libsCommon.rules
+    androidTestImplementation libsCommon.runner
+    testImplementation libsPresentation.coreTesting
+//    testImplementation "android.arch.core:core-testing:1.1.0"
+    testImplementation libsCommon.mockitoInline
+
+
+
+
 }

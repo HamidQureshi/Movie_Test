@@ -1,11 +1,13 @@
-package com.example.hamid.movies.presentation
+package com.example.hamid.movies
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import com.example.hamid.movies.domain.model.Status
 import com.example.hamid.movies.presentation.ui.viewmodel.MovieViewModel
-import com.example.hamid.movies.utils.helper.MockResponse
+import com.hamid.data.MovieRepositoryImpl
+import com.hamid.domain.model.model.Status
+import com.hamid.domain.model.usecases.MoviesUseCase
+import com.hamid.domain.model.utils.helper.MockResponse
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.Flowable
 import io.reactivex.android.plugins.RxAndroidPlugins
@@ -26,7 +28,9 @@ class ViewModelTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    private var movieProcessor: MovieProcessor = mock()
+    private val repo: MovieRepositoryImpl = mock()
+
+    private lateinit var movieUseCase: MoviesUseCase
     private lateinit var viewModel: MovieViewModel
 
 
@@ -35,10 +39,11 @@ class ViewModelTest {
     fun setUp() {
 
         `when`(
-            movieProcessor.getData()
+            repo.getMoviesFromDb()
         ).thenReturn(Flowable.just(MockResponse.response_success))
 
-        viewModel = MovieViewModel(movieProcessor)
+        movieUseCase = MoviesUseCase(repo)
+        viewModel = MovieViewModel(movieUseCase)
 
         viewModel.getData()
 
@@ -52,7 +57,7 @@ class ViewModelTest {
 
     @Test
     fun getData_getsDataFromDomain() {
-        verify(movieProcessor, only()).getData()
+        verify(repo, only()).getMoviesFromDb()
     }
 
     @Test
@@ -75,7 +80,7 @@ class ViewModelTest {
     fun verifyLiveData_StatusError() {
 
         `when`(
-            movieProcessor.getData()
+            repo.getMoviesFromDb()
         ).thenReturn(Flowable.just(MockResponse.response_error))
 
         viewModel.getData()
@@ -88,19 +93,19 @@ class ViewModelTest {
     @Test
     fun getMoviesFromServer_callsGetMoviesFromDomain() {
         viewModel.getMoviesFromServer()
-        verify(movieProcessor, atLeastOnce()).getMoviesFromServer()
+        verify(repo, atLeastOnce()).getMoviesFromServer()
     }
 
     @Test
     fun updateFavouriteMovie_callsUpdateMovieFromDomain() {
         viewModel.updateFavouriteMovie(any(), any())
-        verify(movieProcessor, atLeastOnce()).updateFavouriteMovie(any(), any())
+        verify(repo, atLeastOnce()).updateFavouriteMovie(any(), any())
     }
 
     @Test
     fun clearDisposable_callsClearDisposableFromDomain() {
         viewModel.onCleared()
-        verify(movieProcessor, atLeastOnce()).clearDisposable()
+        verify(repo, atLeastOnce()).clearDisposable()
     }
 
 

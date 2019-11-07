@@ -1,16 +1,13 @@
-package com.example.hamid.movies.db
+package com.hamid.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.hamid.movies.utils.helper.MockResponse
 import com.hamid.data.local.db.MovieDaoImpl
 import com.hamid.data.local.db.MovieRoomDatabase
+import com.hamid.data.utils.helper.MockRepoResponse
 import org.junit.*
-import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
 class DBTest {
 
     private lateinit var db: MovieRoomDatabase
@@ -18,7 +15,7 @@ class DBTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val movieList = MockResponse.movieResponseList
+    private val movieList = MockRepoResponse.movieResponseList
 
     @Before
     fun setUp() {

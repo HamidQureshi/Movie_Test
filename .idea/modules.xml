@@ -7,6 +7,8 @@
       <module fileurl="file://$PROJECT_DIR$/Hamid-Tab_Test.iml" filepath="$PROJECT_DIR$/Hamid-Tab_Test.iml" />
       <module fileurl="file://$PROJECT_DIR$/Movie_Test.iml" filepath="$PROJECT_DIR$/Movie_Test.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/Movie_Test-app.iml" filepath="$PROJECT_DIR$/app/Movie_Test-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/data/Movie_Test-data.iml" filepath="$PROJECT_DIR$/data/Movie_Test-data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/domain/Movie_Test-domain.iml" filepath="$PROJECT_DIR$/domain/Movie_Test-domain.iml" />
       <module fileurl="file://$PROJECT_DIR$/PL_Test.iml" filepath="$PROJECT_DIR$/PL_Test.iml" />
       <module fileurl="file://$PROJECT_DIR$/Tab_Test.iml" filepath="$PROJECT_DIR$/Tab_Test.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/Tab_Test-app.iml" filepath="$PROJECT_DIR$/app/Tab_Test-app.iml" />

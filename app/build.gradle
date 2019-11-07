@@ -117,13 +117,13 @@ dependencies {
 //    testImplementation "junit:junit:$junitVersion"
 //    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
 //    testImplementation "org.mockito:mockito-core:$mockitoVersion"
-//    testImplementation "org.mockito:mockito-inline:$mockitoInlineVersion"
+    testImplementation libsCommon.mockitoInline
 //    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     implementation libsCommon.espressoIdlingResource
-//    androidTestImplementation "androidx.test.ext:junit:$androidxTest"
-//    androidTestImplementation "androidx.test:core:$androidxTest"
-//    androidTestImplementation "androidx.test:rules:$androidxTestRules"
-//    androidTestImplementation "androidx.test:runner:$androidxTestRules"
+    androidTestImplementation libsCommon.extJunit
+    androidTestImplementation libsCommon.core
+    androidTestImplementation libsCommon.rules
+    androidTestImplementation libsCommon.runner
 
     // JUnit
     testImplementation libsCommon.junit
@@ -143,4 +143,7 @@ dependencies {
     androidTestImplementation libsPresentation.coreTesting
 
 
+}
+repositories {
+    mavenCentral()
 }

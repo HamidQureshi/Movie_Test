@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class MovieViewModel @Inject
 constructor(
-    private val moviesUseCase: MoviesUseCase
+    val moviesUseCase: MoviesUseCase
 ) : ViewModel() {
 
     companion object {
