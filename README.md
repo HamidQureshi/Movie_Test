@@ -31,5 +31,3 @@ Testing
 * Espresso
 * Idling Resources
 
-TODO:
---modularization with dagger
