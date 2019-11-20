@@ -10,7 +10,6 @@
     <string name="lbl_releaseDate">Release Date:</string>
     <string name="placeholder_releaseDate">2019–11–01</string>
 
-    <string name="pageNumber">1</string>
     <string name="image">image</string>
 
 </resources>

@@ -45,9 +45,10 @@ dependencies {
 
     // Room Database
     implementation libsCommon.room
-    implementation libsCommon.roomRxJava
     kapt libsCommon.roomCompiler
+    implementation libsCommon.roomRxJava
     androidTestImplementation libsCommon.roomTesting
+    implementation libsCommon.roomCommon
 
     // RxJava and RxAndroid
     implementation libsCommon.rxJava
@@ -86,4 +87,13 @@ dependencies {
     testImplementation libsCommon.mockitoInline
 
 
+}
+
+if (project.hasProperty('kapt')) {
+    kapt {
+        javacOptions {
+            option("-source", "8")
+            option("-target", "8")
+        }
+    }
 }

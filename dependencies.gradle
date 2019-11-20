@@ -1,8 +1,8 @@
 ext {
 
-    compileSdkVersion = 28
+    compileSdkVersion = 29
     minSdkVersion = 21
-    targetSdkVersion = 28
+    targetSdkVersion = 29
 
     versionName = "1.0"
     versionCode = 1
@@ -71,9 +71,10 @@ ext {
             espressoIdlingResource  : ('androidx.test.espresso:espresso-idling-resource:' + espressoVersion),
 
             //Room
-            room   : ('android.arch.persistence.room:runtime:' + androidArchVersion),
-            roomRxJava   : ('android.arch.persistence.room:rxjava2:' + androidArchVersion),
-            roomCompiler   : ('android.arch.persistence.room:compiler:' + androidArchVersion),
+            roomCommon: ('androidx.room:room-common:' + roomVersion),
+            room   : ('androidx.room:room-runtime:' + roomVersion),
+            roomCompiler : ('androidx.room:room-compiler:' + roomVersion),
+            roomRxJava   : ('androidx.room:room-rxjava2:' + roomVersion),
             roomTesting : ('androidx.room:room-testing:' + roomVersion),
 
             //Retrofit

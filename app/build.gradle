@@ -60,6 +60,12 @@ android.sourceSets {
     }
 }
 
+android {
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+}
+
 dependencies {
     implementation project(path: ':domain')
     api project(path: ':data')
@@ -80,7 +86,7 @@ dependencies {
     implementation libsPresentation.lifecycleExtensions
     testImplementation libsCommon.coreTesting
     androidTestImplementation libsCommon.coreTesting
-    annotationProcessor libsPresentation.lifecycleCompiler
+    kapt libsPresentation.lifecycleCompiler
     implementation libsPresentation.livedata
 
     // RxJava and RxAndroid
@@ -89,9 +95,10 @@ dependencies {
 
     /* ROOM */
     implementation libsCommon.room
-    implementation libsCommon.roomRxJava
     kapt libsCommon.roomCompiler
+    implementation libsCommon.roomRxJava
     androidTestImplementation libsCommon.roomTesting
+    implementation libsCommon.roomCommon
 
     /* Dagger2 */
     annotationProcessor libsCommon.daggerCompiler
@@ -128,3 +135,24 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+configurations.all
+        {
+            resolutionStrategy.eachDependency { details ->
+                if (details.requested.group == 'androidx.arch.core'
+                        && !details.requested.name.contains('core-runtime')) {
+                    details.useVersion "2.0.1"
+                }
+
+            }
+        }
+
+if (project.hasProperty('kapt')) {
+    kapt {
+        javacOptions {
+            option("-source", "8")
+            option("-target", "8")
+        }
+    }
+}
+
