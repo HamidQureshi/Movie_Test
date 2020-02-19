@@ -3,9 +3,13 @@ package com.example.hamid.movies.presentation.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.hamid.domain.model.model.Response
+import com.hamid.domain.model.model.Status
 import com.hamid.domain.model.usecases.MoviesUseCase
-import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class MovieViewModel @Inject
@@ -18,38 +22,41 @@ constructor(
     }
 
     val formattedMovieList = MutableLiveData<Response>()
-    val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    fun getData() {
+    fun getData() = viewModelScope.launch {
 
-        compositeDisposable.add(
-            moviesUseCase.getMoviesFromDB()
-                .subscribe({ response ->
-                    Log.d(TAG, "On Next Called")
-                    if (response.data.isEmpty()) {
-                        moviesUseCase.getMoviesFromServer()
-                    }
-                    formattedMovieList.postValue(response)
-                }, { error ->
-                    Log.d(TAG, "On Error Called $error")
+        val response = moviesUseCase.getMoviesFromDB()
+
+        try {
+            response.collect {
+                if (it.data.isEmpty()) {
                     moviesUseCase.getMoviesFromServer()
-                }, {
-                    Log.d(TAG, "On Complete Called")
-                })
-        )
+                }
+                if (it.status == Status.SUCCESS) {
+                    formattedMovieList.postValue(it)
+                } else {
+                    Log.e("Error: ", "${it.status}")
+                    moviesUseCase.getMoviesFromServer()
+                }
+            }
+        } catch (e: HttpException) {
+            Log.e("Error: ", "${e.message}")
+        } catch (e: Throwable) {
+            Log.e("error", e.message + "")
+        }
 
     }
 
-    fun getMoviesFromServer() =
+    fun getMoviesFromServer() = viewModelScope.launch {
         moviesUseCase.getMoviesFromServer()
+    }
 
-    fun updateFavouriteMovie(movieID: Int, favourite: Boolean) =
+    fun updateFavouriteMovie(movieID: Int, favourite: Boolean) = viewModelScope.launch {
         moviesUseCase.markMovieFavourite(movieID, favourite)
+    }
 
     public override fun onCleared() {
         super.onCleared()
-        compositeDisposable.clear()
-        moviesUseCase.clearDisposable()
     }
 
 }

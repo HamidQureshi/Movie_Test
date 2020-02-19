@@ -129,6 +129,8 @@ dependencies {
 
     implementation libsPresentation.picasso
 
+    implementation libsPresentation.viewModel
+
 
 
 }

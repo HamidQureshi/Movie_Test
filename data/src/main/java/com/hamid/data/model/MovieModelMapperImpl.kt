@@ -14,6 +14,8 @@ class MovieModelMapperImpl : MovieModelMapper<List<MovieResponse>, Response> {
 
     private fun formatMovies(movieResponse: List<MovieResponse>): List<MovieFormatted> {
 
+//        withContext(Dispatchers.Default){
+
         val formattedMovie = ArrayList<MovieFormatted>()
 
         for (movie in movieResponse) {
@@ -30,6 +32,8 @@ class MovieModelMapperImpl : MovieModelMapper<List<MovieResponse>, Response> {
         }
 
         return formattedMovie
+
+//        }
 
     }
 

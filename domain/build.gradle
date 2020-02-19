@@ -11,6 +11,14 @@ dependencies {
     implementation libsCommon.rxJava
     implementation libsCommon.rxAndroid
 
+    api libsCommon.kotlinCore
+
+    //Coroutine
+    api libsCommon.coroutinesCore
+    api libsCommon.coroutineAndroid
+    api libsCommon.coroutineRoom
+//    api libsCommon.coroutineRoom1
+
     testImplementation libsCommon.junit
     testImplementation libsCommon.mockitoKotlin
 }

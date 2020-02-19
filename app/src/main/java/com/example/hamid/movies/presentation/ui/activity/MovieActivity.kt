@@ -40,7 +40,7 @@ class MovieActivity : AppCompatActivity() {
 
         val mLayoutManager = LinearLayoutManager(this)
         rv_list.layoutManager = mLayoutManager
-        rv_list.itemAnimator = DefaultItemAnimator()
+        rv_list.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
         rv_list.adapter = itemListAdapter
 
         rv_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -76,8 +76,4 @@ class MovieActivity : AppCompatActivity() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.compositeDisposable.clear()
-    }
 }

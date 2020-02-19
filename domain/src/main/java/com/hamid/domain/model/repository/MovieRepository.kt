@@ -1,7 +1,7 @@
 package com.hamid.domain.model.repository
 
 import com.hamid.domain.model.model.Response
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
 
 
 /**
@@ -9,18 +9,16 @@ import io.reactivex.Flowable
  */
 interface MovieRepository {
 
-    fun getMoviesFromDb(): Flowable<Response>
+    suspend fun getMoviesFromDb(): Flow<Response>
 
-    fun getMoviesFromServer()
+    suspend fun getMoviesFromServer()
 
-    fun updateFavouriteMovie(movieID: Int, favourite: Boolean)
+    suspend fun updateFavouriteMovie(movieID: Int, favourite: Boolean)
 
-    fun nukeDB()
+    suspend fun nukeDB()
 
-    fun currentPageNumber(): Int
+    suspend fun currentPageNumber(): Int
 
-    fun incrementPageNumber()
-
-    fun clearDisposable()
+    suspend fun incrementPageNumber()
 
 }

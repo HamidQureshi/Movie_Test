@@ -23,9 +23,9 @@ ext {
     livedataKtx = '2.2.0-alpha02'
     kotlinVersion = '1.3.10'
     androidxVersion = '1.0.0'
-    roomVersion = '2.0.0'
+    roomVersion = '2.2.3'
     daggerVersion = '2.16'
-    retrofitVersion = '2.3.0'
+    retrofitVersion = '2.7.1'
     okhttpVersion = '2.5.0'
     okhttp3Version = '3.11.0'
     junitVersion = '4.12'
@@ -44,14 +44,29 @@ ext {
 
     kotlin_version = '1.3.10'
 
+    coroutineCoreVersion = '1.3.3'
+    coroutineAndroidVersion = '1.3.3'
+    coroutineRoomVersion = '2.2.3'
+
+    viewModelVersion = '2.2.0'
+    kotlinCoreVersion = '1.1.0'
+
 
     libsCommon = [
             kotlin          : ('org.jetbrains.kotlin:kotlin-stdlib-jdk7:' + kotlin_version),
             kotlinGradlePlugin          : ('org.jetbrains.kotlin:kotlin-gradle-plugin:' + kotlin_version),
 
+            kotlinCore : ('androidx.core:core-ktx:' + kotlinCoreVersion),
+
             //RX
             rxJava          : ('io.reactivex.rxjava2:rxjava:' + rxJavaVersion),
             rxAndroid       : ('io.reactivex.rxjava2:rxandroid:' + rxAndroidVersion),
+
+            //Coroutines
+            coroutinesCore : ('org.jetbrains.kotlinx:kotlinx-coroutines-core:' + coroutineCoreVersion),
+            coroutineAndroid : ('org.jetbrains.kotlinx:kotlinx-coroutines-android:' + coroutineAndroidVersion),
+            coroutineRoom : ('androidx.room:room-ktx:' + coroutineRoomVersion),
+//            coroutineRoom1 : ('androidx.room:room-coroutines:' + '1.1.0'),
 
             //Unit
             junit           : ('junit:junit:' + junitVersion),
@@ -114,6 +129,8 @@ ext {
             livedata   : ('androidx.lifecycle:lifecycle-livedata-ktx:' + livedataKtx),
 
             picasso   : ('com.squareup.picasso:picasso:' + picassoVersion),
+
+            viewModel : ('androidx.lifecycle:lifecycle-viewmodel-ktx:' + viewModelVersion),
 
     ]
 

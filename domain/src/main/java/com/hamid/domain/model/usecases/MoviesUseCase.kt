@@ -2,23 +2,21 @@ package com.hamid.domain.model.usecases
 
 import com.hamid.domain.model.model.Response
 import com.hamid.domain.model.repository.MovieRepository
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
 
 class MoviesUseCase(private val repository: MovieRepository) {
 
-    fun getMoviesFromDB(): Flowable<Response> = repository.getMoviesFromDb()
+    suspend fun getMoviesFromDB(): Flow<Response> = repository.getMoviesFromDb()
 
-    fun getMoviesFromServer() = repository.getMoviesFromServer()
+    suspend fun getMoviesFromServer() = repository.getMoviesFromServer()
 
-    fun markMovieFavourite(movieID: Int, favourite: Boolean) =
+    suspend fun markMovieFavourite(movieID: Int, favourite: Boolean) =
         repository.updateFavouriteMovie(movieID, favourite)
 
-    fun nukeDB() = repository.nukeDB()
+    suspend fun nukeDB() = repository.nukeDB()
 
-    fun getcurrentPageNumber(): Int = repository.currentPageNumber()
+    suspend fun getcurrentPageNumber(): Int = repository.currentPageNumber()
 
-    fun incrementPageNumber() = repository.incrementPageNumber()
-
-    fun clearDisposable() = repository.clearDisposable()
+    suspend fun incrementPageNumber() = repository.incrementPageNumber()
 
 }
