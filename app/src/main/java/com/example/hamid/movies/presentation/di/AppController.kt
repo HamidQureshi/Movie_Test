@@ -1,27 +1,27 @@
 package com.example.hamid.movies.presentation.di
 
-import android.app.Activity
 import android.app.Application
-import com.example.hamid.movies.presentation.di.component.DaggerAppComponent
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import com.example.hamid.movies.presentation.di.koin.dbModule
+import com.example.hamid.movies.presentation.di.koin.httpModule
+import com.example.hamid.movies.presentation.di.koin.prefModule
+import com.example.hamid.movies.presentation.di.koin.viewModelModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
-import javax.inject.Inject
-
-class AppController : Application(), HasActivityInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
-
-    override fun activityInjector(): DispatchingAndroidInjector<Activity>? {
-        return dispatchingAndroidInjector
-    }
+class AppController : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        DaggerAppComponent.builder()
-            .application(this)
-            .build()
-            .inject(this)
+
+        startKoin {
+            // Use Koin Android Logger
+            androidLogger()
+            // declare Android context
+            androidContext(this@AppController)
+            // declare modules to use
+            modules(listOf(viewModelModule, dbModule, httpModule, prefModule))
+        }
+
     }
 }

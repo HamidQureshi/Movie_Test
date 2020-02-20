@@ -101,13 +101,13 @@ dependencies {
     implementation libsCommon.roomCommon
 
     /* Dagger2 */
-    annotationProcessor libsCommon.daggerCompiler
-    implementation libsCommon.daggerAndroid
-    implementation libsCommon.daggerAndroidSupport
-    annotationProcessor libsCommon.daggerAndroidProcessor
-    implementation libsCommon.dagger
-    kapt libsCommon.daggerKotlinAndroidProcessor
-    kapt libsCommon.daggerKotlinCompiler
+//    annotationProcessor libsCommon.daggerCompiler
+//    implementation libsCommon.daggerAndroid
+//    implementation libsCommon.daggerAndroidSupport
+//    annotationProcessor libsCommon.daggerAndroidProcessor
+//    implementation libsCommon.dagger
+//    kapt libsCommon.daggerKotlinAndroidProcessor
+//    kapt libsCommon.daggerKotlinCompiler
 
     implementation libsCommon.okhttpLogging
 

@@ -19,6 +19,12 @@ dependencies {
     api libsCommon.coroutineRoom
 //    api libsCommon.coroutineRoom1
 
+    //Koin
+    api libsCommon.koinAndroid
+    api libsCommon.koinScope
+    api libsCommon.koinViewModel
+//    api libsCommon.koinFragment
+
     testImplementation libsCommon.junit
     testImplementation libsCommon.mockitoKotlin
 }

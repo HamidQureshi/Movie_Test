@@ -1,74 +1,62 @@
-package com.example.hamid.movies.presentation.di.module
+package com.example.hamid.movies.presentation.di.koin
 
-
-import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.hamid.data.remote.APIService
 import com.hamid.domain.model.utils.Constants
-import dagger.Module
-import dagger.Provides
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidContext
+import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 
-@Module
-class HttpClientModule {
+val httpModule = module {
 
-    @Provides
-    @Singleton
-    fun provideGson(): Gson {
+    single<Gson> {
         val gsonBuilder = GsonBuilder()
-        return gsonBuilder.create()
+        gsonBuilder.create()
     }
 
-    @Provides
-    @Singleton
-    fun provideCache(application: Application): Cache {
+    single<Cache> {
         val cacheSize = (10 * 1024 * 1024).toLong() // 10 MB
-        val httpCacheDirectory = File(application.cacheDir, "http-cache")
-        return Cache(httpCacheDirectory, cacheSize)
+        val httpCacheDirectory = File(androidContext().cacheDir, "http-cache")
+        Cache(httpCacheDirectory, cacheSize)
     }
 
-    @Provides
-    @Singleton
-    fun provideOkhttpClient(cache: Cache): OkHttpClient {
+    single<OkHttpClient> {
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
 
         val httpClient = OkHttpClient.Builder()
-        httpClient.cache(cache)
+        httpClient.cache(get())
         httpClient.addInterceptor(logging)
         httpClient.writeTimeout(60, TimeUnit.MINUTES)
         httpClient.connectTimeout(60, TimeUnit.MINUTES)
         httpClient.readTimeout(60, TimeUnit.MINUTES)
-        return httpClient.build()
+        httpClient.build()
     }
 
-
-    @Provides
-    @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
+    single<Retrofit> {
+        Retrofit.Builder()
             .baseUrl(Constants.baseURL)
 //            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
+            .client(get())
             .build()
     }
 
-    @Provides
-    @Singleton
-    fun provideApiService(retrofit: Retrofit): APIService {
-        return retrofit.create(APIService::class.java)
+    single<APIService> {
+        provideApiService(get())
     }
 
+}
 
+fun provideApiService(retrofit: Retrofit): APIService {
+    return retrofit.create(APIService::class.java)
 }

@@ -10,9 +10,8 @@ import com.hamid.domain.model.usecases.MoviesUseCase
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import javax.inject.Inject
 
-class MovieViewModel @Inject
+class MovieViewModel
 constructor(
     val moviesUseCase: MoviesUseCase
 ) : ViewModel() {
