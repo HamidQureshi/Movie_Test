@@ -1,6 +1,6 @@
 package com.hamid.domain.model.model
 
-class Response(
+data class Response(
     var status: Status,
     var data: List<MovieFormatted>
 )

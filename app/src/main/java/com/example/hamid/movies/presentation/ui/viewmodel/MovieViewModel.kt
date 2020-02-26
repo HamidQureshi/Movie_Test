@@ -2,11 +2,12 @@ package com.example.hamid.movies.presentation.ui.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hamid.domain.model.model.MovieViewState
 import com.hamid.domain.model.model.Response
 import com.hamid.domain.model.model.Status
 import com.hamid.domain.model.usecases.MoviesUseCase
+import io.uniflow.androidx.flow.AndroidDataFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -14,10 +15,15 @@ import retrofit2.HttpException
 class MovieViewModel
 constructor(
     val moviesUseCase: MoviesUseCase
-) : ViewModel() {
+) : AndroidDataFlow() {
 
     companion object {
         private const val TAG = "viewModel"
+    }
+
+    init {
+        //set initial state
+        setState { MovieViewState.Init }
     }
 
     val formattedMovieList = MutableLiveData<Response>()
@@ -45,6 +51,34 @@ constructor(
         }
 
     }
+
+//    fun getData() = setState {
+//
+//        val response = moviesUseCase.getMoviesFromDB().await()
+//
+//        try {
+//            response.collect {
+//                if (it.data.isEmpty()) {
+//                    moviesUseCase.getMoviesFromServer()
+//                }
+////                if (it.status == Status.SUCCESS) {
+////                    formattedMovieList.postValue(it)
+//                    MovieViewState.MovieFormatted(response = response)
+////                }
+////                else {
+////                    Log.e("Error: ", "${it.status}")
+////                    moviesUseCase.getMoviesFromServer()
+////                }
+//            }
+//        } catch (e: HttpException) {
+//            Log.e("Error: ", "${e.message}")
+//            MovieViewState.Failed(e)
+//        } catch (e: Exception) {
+//            Log.e("error", e.message + "")
+//            MovieViewState.Failed(e)
+//        }
+//
+//    }
 
     fun getMoviesFromServer() = viewModelScope.launch {
         moviesUseCase.getMoviesFromServer()

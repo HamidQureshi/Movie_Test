@@ -109,6 +109,12 @@ dependencies {
 //    kapt libsCommon.daggerKotlinAndroidProcessor
 //    kapt libsCommon.daggerKotlinCompiler
 
+    //Uniflow
+    implementation libsCommon.uniflowCore
+    implementation libsCommon.uniflowAndroid
+    testImplementation libsCommon.uniflowTest
+    testImplementation libsCommon.uniflowAndroidXTest
+
     implementation libsCommon.okhttpLogging
 
     testImplementation libsCommon.mockitoInline

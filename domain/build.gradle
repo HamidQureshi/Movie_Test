@@ -25,6 +25,12 @@ dependencies {
     api libsCommon.koinViewModel
 //    api libsCommon.koinFragment
 
+    //Uniflow
+    implementation libsCommon.uniflowCore
+    implementation libsCommon.uniflowAndroid
+    testImplementation libsCommon.uniflowTest
+    testImplementation libsCommon.uniflowAndroidXTest
+
     testImplementation libsCommon.junit
     testImplementation libsCommon.mockitoKotlin
 }

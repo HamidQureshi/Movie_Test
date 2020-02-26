@@ -52,6 +52,8 @@ ext {
     viewModelVersion = '2.2.0'
     kotlinCoreVersion = '1.1.0'
 
+    uniflowVersion = '0.9.5'
+
 
     libsCommon = [
             kotlin          : ('org.jetbrains.kotlin:kotlin-stdlib-jdk7:' + kotlin_version),
@@ -111,6 +113,12 @@ ext {
 
             //Gson
             gson : ('com.google.code.gson:gson:' + gsonVersion),
+
+            // UniFlow
+            uniflowCore : ('io.uniflow:uniflow-core:' + uniflowVersion),
+            uniflowAndroid : ('io.uniflow:uniflow-androidx:' + uniflowVersion),
+            uniflowTest : ('io.uniflow:uniflow-test:' + uniflowVersion),
+            uniflowAndroidXTest : ('io.uniflow:uniflow-androidx-test:' + uniflowVersion),
 
             //testing
             extJunit : ('androidx.test.ext:junit:' + androidxTest),
