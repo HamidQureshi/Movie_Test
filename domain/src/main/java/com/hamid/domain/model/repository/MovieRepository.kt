@@ -1,6 +1,6 @@
 package com.hamid.domain.model.repository
 
-import com.hamid.domain.model.model.Response
+import com.hamid.domain.model.model.MovieFormatted
 import kotlinx.coroutines.flow.Flow
 
 
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
  */
 interface MovieRepository {
 
-    suspend fun getMoviesFromDb(): Flow<Response>
+    suspend fun getMoviesFromDb(): Flow<List<MovieFormatted>>
 
     suspend fun getMoviesFromServer()
 

@@ -53,22 +53,6 @@ class MovieActivity : AppCompatActivity() {
             }
         })
 
-
-//        viewModel.formattedMovieList.observe(this, Observer { movies ->
-//
-//            if (pb_nextPageLoading.visibility == View.VISIBLE) {
-//                pb_nextPageLoading.visibility = View.GONE
-//            }
-//
-//            if (movies.status == Status.SUCCESS) {
-//                progress_bar.visibility = View.GONE
-//                itemListAdapter.setAdapterList(movies!!.data)
-//            } else {
-//                progress_bar.visibility = View.VISIBLE
-//            }
-//
-//        })
-
         viewModel.getData()
 
         // Observe incoming states
@@ -76,15 +60,17 @@ class MovieActivity : AppCompatActivity() {
             when (state) {
                 // react on WeatherState update
                 is MovieViewState.Init -> progress_bar.visibility = View.VISIBLE
-                is MovieViewState.MovieFormatted -> {
+                is MovieViewState.Success -> {
+
+                    if (pb_nextPageLoading.visibility == View.VISIBLE) {
+                        pb_nextPageLoading.visibility = View.GONE
+                    }
                     progress_bar.visibility = View.GONE
-                    itemListAdapter.setAdapterList(state.response.data)
+                    itemListAdapter.setAdapterList(state.movieList)
                 }
                 is MovieViewState.Failed -> progress_bar.visibility = View.VISIBLE
             }
         }
-
-//        onEvents()
 
     }
 

@@ -7,7 +7,7 @@ import com.hamid.data.model.MovieModelMapperImpl
 import com.hamid.data.model.MovieResponse
 import com.hamid.data.remote.APIService
 import com.hamid.data.utils.EspressoIdlingResource
-import com.hamid.domain.model.model.Response
+import com.hamid.domain.model.model.MovieFormatted
 import com.hamid.domain.model.repository.MovieRepository
 import com.hamid.domain.model.utils.Constants
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +21,7 @@ class MovieRepositoryImpl constructor(
 ) : MovieRepository {
 
 
-    override suspend fun getMoviesFromDb(): Flow<Response> {
+    override suspend fun getMoviesFromDb(): Flow<List<MovieFormatted>> {
         return movieDAOImpl.getAllMovies()
             .map { mapper.fromEntity(it) }
     }

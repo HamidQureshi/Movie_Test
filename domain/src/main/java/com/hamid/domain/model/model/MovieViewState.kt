@@ -6,8 +6,8 @@ sealed class MovieViewState : UIState() {
 
     object Init : MovieViewState()
 
-    data class MovieFormatted(
-        val response: Response
+    data class Success(
+        val movieList: List<MovieFormatted>
     ) : MovieViewState()
 
     data class Failed(val error: Exception) : MovieViewState()

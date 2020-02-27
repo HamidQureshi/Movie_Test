@@ -1,9 +1,7 @@
 package com.example.hamid.movies.presentation.ui.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.hamid.domain.model.model.MovieViewState
-import com.hamid.domain.model.model.Response
 import com.hamid.domain.model.usecases.MoviesUseCase
 import io.uniflow.androidx.flow.AndroidDataFlow
 import kotlinx.coroutines.flow.collect
@@ -23,8 +21,6 @@ constructor(
         setState { MovieViewState.Init }
     }
 
-    val formattedMovieList = MutableLiveData<Response>()
-
     fun getData() {
 
         viewModelScope.launch {
@@ -32,11 +28,11 @@ constructor(
             val response = moviesUseCase.getMoviesFromDB()
 
             response.collect { res ->
-                if (res.data.isEmpty()) {
+                if (res.isEmpty()) {
                     moviesUseCase.getMoviesFromServer()
                 } else {
                     setState {
-                        MovieViewState.MovieFormatted(res)
+                        MovieViewState.Success(res)
                     }
                 }
             }

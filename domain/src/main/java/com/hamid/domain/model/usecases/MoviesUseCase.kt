@@ -1,12 +1,12 @@
 package com.hamid.domain.model.usecases
 
-import com.hamid.domain.model.model.Response
+import com.hamid.domain.model.model.MovieFormatted
 import com.hamid.domain.model.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 
 class MoviesUseCase(private val repository: MovieRepository) {
 
-    suspend fun getMoviesFromDB(): Flow<Response> = repository.getMoviesFromDb()
+    suspend fun getMoviesFromDB(): Flow<List<MovieFormatted>> = repository.getMoviesFromDb()
 
     suspend fun getMoviesFromServer() = repository.getMoviesFromServer()
 
