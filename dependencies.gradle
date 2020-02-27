@@ -53,6 +53,7 @@ ext {
     kotlinCoreVersion = '1.1.0'
 
     uniflowVersion = '0.9.5'
+    coroutineAdapter = '0.9.2'
 
 
     libsCommon = [
@@ -106,6 +107,7 @@ ext {
             retrofitGsonConverter : ('com.squareup.retrofit2:converter-gson:' + retrofitVersion),
             retrofitRxJava : ('com.squareup.retrofit2:adapter-rxjava2:' + retrofitVersion),
             retrofitConverter : ('com.squareup.retrofit2:converter-scalars:' + retrofitVersion),
+            retrofitCoroutineAdapter : ('com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:' + coroutineAdapter),
 
             //OKHttp
             okHttp : ('com.squareup.okhttp:okhttp:' + okhttpVersion),
@@ -126,7 +128,6 @@ ext {
             rules : ('androidx.test:rules:' + androidxTestRules),
             runner : ('androidx.test:runner:' + androidxTestRules),
             coreTesting   : ('androidx.arch.core:core-testing:' + archCompomentVersion),
-
 
     ]
 

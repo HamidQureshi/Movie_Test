@@ -29,7 +29,7 @@ class MovieRepositoryImpl constructor(
     override suspend fun getMoviesFromServer() {
         EspressoIdlingResource.increment()
 
-        val moviesResponse = apiService.fetchMovies(Constants.apiKey, currentPageNumber())
+        val moviesResponse = apiService.fetchMovies(Constants.apiKey, currentPageNumber()).await()
 
         try {
             if (moviesResponse.isSuccessful) {

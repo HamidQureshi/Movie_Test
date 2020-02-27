@@ -3,14 +3,14 @@ package com.example.hamid.movies.presentation.ui.activity
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hamid.movies.R
 import com.example.hamid.movies.presentation.ui.adaptar.MovieListAdapter
 import com.example.hamid.movies.presentation.ui.viewmodel.MovieViewModel
-import com.hamid.domain.model.model.Status
+import com.hamid.domain.model.model.MovieViewState
+import io.uniflow.androidx.flow.onStates
 import kotlinx.android.synthetic.main.activity_movie.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -53,22 +53,38 @@ class MovieActivity : AppCompatActivity() {
             }
         })
 
+
+//        viewModel.formattedMovieList.observe(this, Observer { movies ->
+//
+//            if (pb_nextPageLoading.visibility == View.VISIBLE) {
+//                pb_nextPageLoading.visibility = View.GONE
+//            }
+//
+//            if (movies.status == Status.SUCCESS) {
+//                progress_bar.visibility = View.GONE
+//                itemListAdapter.setAdapterList(movies!!.data)
+//            } else {
+//                progress_bar.visibility = View.VISIBLE
+//            }
+//
+//        })
+
         viewModel.getData()
 
-        viewModel.formattedMovieList.observe(this, Observer { movies ->
-
-            if (pb_nextPageLoading.visibility == View.VISIBLE) {
-                pb_nextPageLoading.visibility = View.GONE
+        // Observe incoming states
+        onStates(viewModel) { state ->
+            when (state) {
+                // react on WeatherState update
+                is MovieViewState.Init -> progress_bar.visibility = View.VISIBLE
+                is MovieViewState.MovieFormatted -> {
+                    progress_bar.visibility = View.GONE
+                    itemListAdapter.setAdapterList(state.response.data)
+                }
+                is MovieViewState.Failed -> progress_bar.visibility = View.VISIBLE
             }
+        }
 
-            if (movies.status == Status.SUCCESS) {
-                progress_bar.visibility = View.GONE
-                itemListAdapter.setAdapterList(movies!!.data)
-            } else {
-                progress_bar.visibility = View.VISIBLE
-            }
-
-        })
+//        onEvents()
 
     }
 

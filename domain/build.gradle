@@ -24,6 +24,7 @@ dependencies {
     api libsCommon.koinScope
     api libsCommon.koinViewModel
 //    api libsCommon.koinFragment
+    api libsCommon.retrofitCoroutineAdapter
 
     //Uniflow
     implementation libsCommon.uniflowCore
